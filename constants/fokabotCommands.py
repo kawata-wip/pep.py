@@ -1243,6 +1243,21 @@ def bloodcat(fro, chan, message):
 		beatmapID = spectatorHostToken.beatmapID
 	return bloodcatMessage(beatmapID)
 
+def setClassic(fro, chan, message):
+	userID = userUtils.getID(fro)
+	try:
+		glob.db.execute("UPDATE users set is_relax = 0 WHERE id = %s", (userID,))
+		return ("Successfully set classic as your current mode!")
+	except:
+		return ("Sorry, an unknown error has occured, please try again later.")
+
+def setRelax(fro, chan, message):
+	userID = userUtils.getID(fro)
+	try:
+		glob.db.execute("UPDATE users set is_relax = 1 WHERE id = %s", (userID,))
+		return ("Successfully set relax as your current mode!")
+	except:
+		return ("Sorry, an unknown error has occured, please try again later.")
 
 """
 Commands list
@@ -1403,6 +1418,12 @@ commands = [
 		"trigger": "!reloadconfig",
 		"privileges": privileges.ADMIN_MANAGE_SERVERS,
 		"callback": reloadConfig
+	}, {
+		"trigger": "!classic",
+		"callback": setClassic
+	}, {
+		"trigger": "!relax",
+		"callback": setRelax
 	}
 	#
 	#	"trigger": "!acc",
